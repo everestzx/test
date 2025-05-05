@@ -28,7 +28,7 @@ const Login = ({ setIsLoggedIn }) => {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("name", data.name);
         localStorage.setItem("email", data.email);
-        localStorage.setItem("customer_id", data.customer_id);
+        localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("userPhoto", "./images/default-user.png");
 
         if (rememberMe) {

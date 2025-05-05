@@ -28,7 +28,7 @@ function App() {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("name");
       localStorage.removeItem("email");
-      localStorage.removeItem("customer_id");
+      localStorage.removeItem("user_id");
       localStorage.removeItem("expiresAt");
     }
   }, []);

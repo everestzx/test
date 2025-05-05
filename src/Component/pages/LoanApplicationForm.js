@@ -3,7 +3,7 @@ import '../stylez/LoanApplicationForm.css';
 
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
-    customer_id: localStorage.getItem('customer_id') || '',
+    user_id: localStorage.getItem('user_id') || '',
     application_date: new Date().toISOString().split('T')[0],
     borrowerName: '',
     clientId: '',
@@ -70,7 +70,7 @@ const LoanApplicationForm = () => {
 
   const resetForm = () => {
     setFormData({
-      customer_id: localStorage.getItem('customer_id') || '',
+      user_id: localStorage.getItem('user_id') || '',
       application_date: new Date().toISOString().split('T')[0],
       borrowerName: '',
       clientId: '',
@@ -105,10 +105,22 @@ const LoanApplicationForm = () => {
     } else {
       setIsSubmitting(true);
       try {
+        // Create a copy of formData with user_id converted to an integer
+        const submissionData = {
+          ...formData,
+          user_id: parseInt(formData.user_id, 10),
+        };
+
+        // Check if user_id is valid
+        if (isNaN(submissionData.user_id)) {
+          alert('Session error: Please log in again');
+          return;
+        }
+
         const response = await fetch('http://localhost:5000/api/loan-applications', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(submissionData),
         });
 
         const data = await response.json();
@@ -118,7 +130,7 @@ const LoanApplicationForm = () => {
           resetForm();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          alert('Submission failed: ' + data.message);
+          alert('Submission failed: ' + (data.error || data.message));
         }
       } catch (err) {
         alert('Server error. Please try again later.');

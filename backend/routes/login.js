@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
     res.json({
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
-      customer_id: user.user_id,
+      user_id: user.user_id,
     });
   } catch (err) {
     console.error("Unexpected error during login:", err); // log full error to terminal

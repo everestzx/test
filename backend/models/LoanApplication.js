@@ -2,9 +2,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 
 const LoanApplication = sequelize.define('LoanApplication', {
-  customer_id: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'user_id',
+    },
   },
   application_date: {
     type: DataTypes.DATEONLY,
