@@ -30,6 +30,7 @@ const Login = ({ setIsLoggedIn }) => {
         localStorage.setItem("email", data.email);
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("userPhoto", "./images/default-user.png");
+        localStorage.setItem("userRole", data.role || "user");
 
         if (rememberMe) {
           const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
@@ -56,11 +57,22 @@ const Login = ({ setIsLoggedIn }) => {
     localStorage.setItem("email", email);
     localStorage.setItem("userPhoto", picture);
 
-    await fetch("http://localhost:5000/api/google-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name, picture }),
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, picture }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("userRole", data.role || "user");
+      } else {
+        localStorage.setItem("userRole", "user");
+      }
+    } catch (err) {
+      localStorage.setItem("userRole", "user");
+    }
 
     setIsLoggedIn(true);
     alert("Google login successful!");

@@ -13,6 +13,8 @@ import LoanApplicationForm from "./Component/pages/LoanApplicationForm";
 import Terms from "./Component/pages/Terms";
 import FAQ from "./Component/pages/FAQ";
 import Services from "./Component/pages/Services";
+import ProtectedRoute from "./Component/ProtectedRoute";
+import AdminRoute from "./Component/AdminRoute";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,10 +34,6 @@ function App() {
       localStorage.removeItem("expiresAt");
     }
   }, []);
-
-  const ProtectedRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
-  };
 
   return (
     <Router>
@@ -66,9 +64,9 @@ function App() {
         <Route
           path="/Dashboard"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <Dashboard />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
         <Route

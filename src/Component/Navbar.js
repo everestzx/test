@@ -12,6 +12,9 @@ function Navbar() {
   const userPhoto = localStorage.getItem('userPhoto') || './images/default-user.png';
   const userName = localStorage.getItem('name')?.split(' ')[0] || ''; // Get first name only
   const isCustomPhoto = userPhoto !== './images/default-user.png';
+  const userRole = localStorage.getItem('userRole') || 'user'; // Default to regular user if no role is set
+  const isAdmin = userRole === 'admin';
+
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -22,6 +25,7 @@ function Navbar() {
     localStorage.removeItem('customer_id');
     localStorage.removeItem('userPhoto');
     localStorage.removeItem('expiresAt');
+    localStorage.removeItem('userRole');
     navigate('/login');
   };
 
@@ -40,11 +44,13 @@ function Navbar() {
         </div>
 
         <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-          <li className="nav-item">
-            <Link to="/Dashboard" className="nav-links" onClick={closeMobileMenu}>
-              Dashboard
-            </Link>
-          </li>
+          {isAdmin && (
+            <li className="nav-item">
+              <Link to="/Dashboard" className="nav-links" onClick={closeMobileMenu}>
+                Dashboard
+              </Link>
+            </li>
+          )}
 
           <li className="nav-item" onMouseEnter={() => setFormsDropdown(true)} onMouseLeave={() => setFormsDropdown(false)}>
             <span className="nav-links">Online Forms</span>

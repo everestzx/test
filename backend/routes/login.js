@@ -30,11 +30,14 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    const role = user.role || "user"; // Default to 'user' if role is not set (for members/non-members)
+
     // Success
     res.json({
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
       user_id: user.user_id,
+      role: role,
     });
   } catch (err) {
     console.error("Unexpected error during login:", err); // log full error to terminal
