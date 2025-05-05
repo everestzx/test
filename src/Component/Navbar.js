@@ -8,17 +8,21 @@ function Navbar() {
   const [profileDropdown, setProfileDropdown] = useState(false);
   const navigate = useNavigate();
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const userPhoto = localStorage.getItem("userPhoto") || "./images/default-user.png";
-const userName = localStorage.getItem("name")?.split(" ")[0] || ""; // Get first name only
-const isCustomPhoto = userPhoto !== "./images/default-user.png";
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const userPhoto = localStorage.getItem('userPhoto') || './images/default-user.png';
+  const userName = localStorage.getItem('name')?.split(' ')[0] || ''; // Get first name only
+  const isCustomPhoto = userPhoto !== './images/default-user.png';
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userPhoto");
-    navigate("/login");
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    localStorage.removeItem('customer_id');
+    localStorage.removeItem('userPhoto');
+    localStorage.removeItem('expiresAt');
+    navigate('/login');
   };
 
   if (!isLoggedIn) return null;
@@ -42,11 +46,7 @@ const isCustomPhoto = userPhoto !== "./images/default-user.png";
             </Link>
           </li>
 
-          <li
-            className="nav-item"
-            onMouseEnter={() => setFormsDropdown(true)}
-            onMouseLeave={() => setFormsDropdown(false)}
-          >
+          <li className="nav-item" onMouseEnter={() => setFormsDropdown(true)} onMouseLeave={() => setFormsDropdown(false)}>
             <span className="nav-links">Online Forms</span>
             {formsDropdown && (
               <div className="dropdown-menu">
@@ -72,11 +72,7 @@ const isCustomPhoto = userPhoto !== "./images/default-user.png";
             </Link>
           </li>
 
-          <li 
-            className="nav-item"
-            onMouseEnter={() => setProfileDropdown(true)}
-            onMouseLeave={() => setProfileDropdown(false)}
-          >
+          <li className="nav-item" onMouseEnter={() => setProfileDropdown(true)} onMouseLeave={() => setProfileDropdown(false)}>
             <div className="nav-photo profile-container">
               {isCustomPhoto && <span className="user-name">{userName}</span>}
               <img src={userPhoto} alt="User" className="profile-photo" />

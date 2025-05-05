@@ -27,6 +27,7 @@ const Login = ({ setIsLoggedIn }) => {
       if (response.ok) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("name", data.name);
+        localStorage.setItem("email", data.email);
         localStorage.setItem("customer_id", data.customer_id);
         localStorage.setItem("userPhoto", "./images/default-user.png");
 
@@ -79,27 +80,10 @@ const Login = ({ setIsLoggedIn }) => {
           <p className="motto">Empowering communities, one connection at a time.</p>
           <h2>Login</h2>
           <form onSubmit={handleSubmit} className="form">
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
             <div className="checkbox-row">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
+              <input type="checkbox" id="rememberMe" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
               <label htmlFor="rememberMe">Remember me for 7 days</label>
             </div>
             {error && <p className="error">{error}</p>}
@@ -108,10 +92,7 @@ const Login = ({ setIsLoggedIn }) => {
 
           <div className="google-login">
             <p>Or log in with:</p>
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => alert("Google login failed")}
-            />
+            <GoogleLogin onSuccess={handleGoogleSuccess} onError={() => alert("Google login failed")} />
           </div>
 
           <p className="link-text">

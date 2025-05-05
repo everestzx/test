@@ -14,13 +14,10 @@ router.post("/", async (req, res) => {
   console.log(req.body);
 
   try {
-    const users = await sequelize.query(
-      "SELECT * FROM users WHERE email = ?",
-      {
-        replacements: [email],
-        type: QueryTypes.SELECT,
-      }
-    );
+    const users = await sequelize.query("SELECT * FROM users WHERE email = ?", {
+      replacements: [email],
+      type: QueryTypes.SELECT,
+    });
 
     if (users.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -37,7 +34,7 @@ router.post("/", async (req, res) => {
     res.json({
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
-      customer_id: user.id,
+      customer_id: user.user_id,
     });
   } catch (err) {
     console.error("Unexpected error during login:", err); // log full error to terminal
