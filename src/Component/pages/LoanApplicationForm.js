@@ -3,8 +3,8 @@ import '../stylez/LoanApplicationForm.css';
 
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
-    customer_id: localStorage.getItem("customer_id") || "",
-    application_date: new Date().toISOString().split("T")[0],
+    customer_id: localStorage.getItem('customer_id') || '',
+    application_date: new Date().toISOString().split('T')[0],
     borrowerName: '',
     clientId: '',
     address: '',
@@ -25,10 +25,13 @@ const LoanApplicationForm = () => {
     loanTerm: '',
     payoutPreference: '',
     paymentMode: '',
-    loanPurpose: ''
+    loanPurpose: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [applicationId, setApplicationId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,59 +68,102 @@ const LoanApplicationForm = () => {
     return newErrors;
   };
 
+  const resetForm = () => {
+    setFormData({
+      customer_id: localStorage.getItem('customer_id') || '',
+      application_date: new Date().toISOString().split('T')[0],
+      borrowerName: '',
+      clientId: '',
+      address: '',
+      lengthOfStayYears: '',
+      lengthOfStayMonths: '',
+      contactNo: '',
+      tin: '',
+      age: '',
+      gender: '',
+      spouseName: '',
+      occupation: '',
+      birthdate: '',
+      civilStatus: '',
+      spouseOccupation: '',
+      loanProduct: '',
+      loanAmount: '',
+      loanAmountWords: '',
+      loanTerm: '',
+      payoutPreference: '',
+      paymentMode: '',
+      loanPurpose: '',
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
+      setIsSubmitting(true);
       try {
-        const response = await fetch("http://localhost:5000/api/loan-applications", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
+        const response = await fetch('http://localhost:5000/api/loan-applications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
         });
 
         const data = await response.json();
         if (response.ok) {
-          alert("Loan Application Submitted!");
-          setFormData({
-            customer_id: localStorage.getItem("customer_id") || "",
-            application_date: new Date().toISOString().split("T")[0],
-            borrowerName: '',
-            clientId: '',
-            address: '',
-            lengthOfStayYears: '',
-            lengthOfStayMonths: '',
-            contactNo: '',
-            tin: '',
-            age: '',
-            gender: '',
-            spouseName: '',
-            occupation: '',
-            birthdate: '',
-            civilStatus: '',
-            spouseOccupation: '',
-            loanProduct: '',
-            loanAmount: '',
-            loanAmountWords: '',
-            loanTerm: '',
-            payoutPreference: '',
-            paymentMode: '',
-            loanPurpose: ''
-          });
+          setApplicationId(data.data.id);
+          setSubmitSuccess(true);
+          resetForm();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          alert("Submission failed: " + data.message);
+          alert('Submission failed: ' + data.message);
         }
       } catch (err) {
-        alert("Server error. Please try again later.");
+        alert('Server error. Please try again later.');
+        console.error('Error submitting loan application:', err);
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
 
+  const handleNewApplication = () => {
+    setSubmitSuccess(false);
+    setApplicationId(null);
+  };
+
+  if (submitSuccess) {
+    return (
+      <div className="loan-form-container">
+        <div className="loan-success-container">
+          <h2>Loan Application Submitted Successfully!</h2>
+          <p>Your application has been received and is being processed.</p>
+          <p>
+            Application ID: <strong>{applicationId}</strong>
+          </p>
+          <p>We will contact you soon regarding the status of your application.</p>
+          <div className="loan-form-footer">
+            <button onClick={handleNewApplication} className="loan-submit-button">
+              Submit Another Application
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="loan-form-container">
       <h2 className="loan-form-title">Loan Application Form</h2>
+      {isSubmitting && (
+        <div className="loan-submitting-overlay">
+          <div className="loan-submitting-message">
+            <p>Submitting your application...</p>
+          </div>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="loan-form-group">
           <label>Borrower Name *</label>
@@ -178,7 +224,13 @@ const LoanApplicationForm = () => {
 
         <div className="loan-form-group">
           <label>Birthdate *</label>
-          <input name="birthdate" type="date" value={formData.birthdate} onChange={handleChange} className={errors.birthdate ? 'error' : ''} />
+          <input
+            name="birthdate"
+            type="date"
+            value={formData.birthdate}
+            onChange={handleChange}
+            className={errors.birthdate ? 'error' : ''}
+          />
           {errors.birthdate && <div className="error-message">{errors.birthdate}</div>}
         </div>
 
@@ -227,12 +279,23 @@ const LoanApplicationForm = () => {
           <div className="loan-form-row">
             <div className="loan-form-group">
               <label>Loan Amount (PHP) *</label>
-              <input name="loanAmount" type="number" value={formData.loanAmount} onChange={handleChange} className={errors.loanAmount ? 'error' : ''} />
+              <input
+                name="loanAmount"
+                type="number"
+                value={formData.loanAmount}
+                onChange={handleChange}
+                className={errors.loanAmount ? 'error' : ''}
+              />
               {errors.loanAmount && <div className="error-message">{errors.loanAmount}</div>}
             </div>
             <div className="loan-form-group">
               <label>Loan Amount (In Words) *</label>
-              <input name="loanAmountWords" value={formData.loanAmountWords} onChange={handleChange} className={errors.loanAmountWords ? 'error' : ''} />
+              <input
+                name="loanAmountWords"
+                value={formData.loanAmountWords}
+                onChange={handleChange}
+                className={errors.loanAmountWords ? 'error' : ''}
+              />
               {errors.loanAmountWords && <div className="error-message">{errors.loanAmountWords}</div>}
             </div>
           </div>
@@ -250,7 +313,12 @@ const LoanApplicationForm = () => {
             </div>
             <div className="loan-form-group">
               <label>Payout Preference *</label>
-              <select name="payoutPreference" value={formData.payoutPreference} onChange={handleChange} className={errors.payoutPreference ? 'error' : ''}>
+              <select
+                name="payoutPreference"
+                value={formData.payoutPreference}
+                onChange={handleChange}
+                className={errors.payoutPreference ? 'error' : ''}
+              >
                 <option value="">Select</option>
                 <option value="Cash out">Cash Out</option>
                 <option value="Others">Others</option>
@@ -271,13 +339,20 @@ const LoanApplicationForm = () => {
 
           <div className="loan-form-group">
             <label>Loan Purpose *</label>
-            <textarea name="loanPurpose" value={formData.loanPurpose} onChange={handleChange} className={errors.loanPurpose ? 'error' : ''} />
+            <textarea
+              name="loanPurpose"
+              value={formData.loanPurpose}
+              onChange={handleChange}
+              className={errors.loanPurpose ? 'error' : ''}
+            />
             {errors.loanPurpose && <div className="error-message">{errors.loanPurpose}</div>}
           </div>
         </div>
 
         <div className="loan-form-footer">
-          <button type="submit" className="loan-submit-button">Submit Application</button>
+          <button type="submit" disabled={isSubmitting} className="loan-submit-button">
+            {isSubmitting ? 'Submitting...' : 'Submit Application'}
+          </button>
         </div>
       </form>
     </div>

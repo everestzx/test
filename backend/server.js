@@ -3,19 +3,23 @@ const cors = require('cors');
 const app = express();
 const sequelize = require('./db');
 require('./models/MembershipFormSubmission');
+require('./models/LoanApplication');
 
 // Import routes
 const loginRoute = require('./routes/login');
 const userRoutes = require('./routes/users');
-const membershipRoutes = require('./routes/membershipRoutes'); // ✅ Add this
+const membershipRoutes = require('./routes/membershipRoutes');
+const loanRoutes = require('./routes/loanRoutes');
+
 // Middleware
 app.use(cors()); // Only need this once
 app.use(express.json());
-// app.use('/api', require('./routes/membershipRoutes'));
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/login', loginRoute);
-app.use('/api', membershipRoutes); // ✅ Add this
+app.use('/api', membershipRoutes);
+app.use('/api', loanRoutes);
 
 sequelize
   .sync()

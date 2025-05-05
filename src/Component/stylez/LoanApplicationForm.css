@@ -1,113 +1,195 @@
 /* LoanApplicationForm.css */
 .loan-form-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: white;
-  font-family: 'Arial', sans-serif;
-  color: #000;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .loan-form-title {
   text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  color: #000;
-  border-bottom: 2px solid #000;
-  padding-bottom: 5px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
 }
 
 .loan-form-section {
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
+  margin-top: 40px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
 }
 
 .loan-section-title {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #000;
-  text-transform: uppercase;
+  color: #2c3e50;
+  font-size: 22px;
+  margin-bottom: 20px;
 }
 
 .loan-form-row {
   display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .loan-form-group {
   flex: 1;
   min-width: 150px;
+  margin-bottom: 20px;
 }
 
 .loan-form-group.small {
-  flex: 0.5;
+  flex: 1;
+  min-width: 120px;
 }
 
 .loan-form-group.wide {
   flex: 2;
 }
 
-label {
+.loan-form-group label {
   display: block;
-  font-size: 12px;
   margin-bottom: 5px;
-  font-weight: 600;
-  color: #000;
+  font-weight: 500;
+  color: #34495e;
 }
 
-input, select, textarea {
+.loan-form-group input,
+.loan-form-group select,
+.loan-form-group textarea {
   width: 100%;
-  padding: 8px 10px;
+  padding: 12px 15px;
   border: 1px solid #ddd;
-  border-radius: 3px;
-  font-size: 13px;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: all 0.3s;
   color: #000;
   background-color: white;
 }
 
-input:focus, select:focus, textarea:focus {
-  border-color: #007bff;
+.loan-form-group input:focus,
+.loan-form-group select:focus,
+.loan-form-group textarea:focus {
   outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.loan-form-group input.error,
+.loan-form-group select.error,
+.loan-form-group textarea.error {
+  border-color: #e74c3c;
 }
 
 textarea {
-  min-height: 80px;
+  min-height: 100px;
   resize: vertical;
 }
 
 .error-message {
-  color: #dc3545;
-  font-size: 11px;
-  margin-top: 3px;
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 5px;
   display: block;
 }
 
 .loan-form-footer {
-  text-align: center;
   margin-top: 30px;
+  text-align: center;
 }
 
 .loan-submit-button {
-  background-color: #000;
+  background-color: #3498db;
   color: white;
   border: none;
-  padding: 10px 25px;
-  font-size: 14px;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 4px;
   cursor: pointer;
-  text-transform: uppercase;
-  font-weight: bold;
-  border-radius: 3px;
+  transition: background-color 0.3s ease;
 }
 
 .loan-submit-button:hover {
-  background-color: #333;
+  background-color: #2980b9;
+}
+
+.loan-submit-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* Success Message Styles */
+.loan-success-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loan-success-container h2 {
+  color: #27ae60;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.loan-success-container p {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #34495e;
+}
+
+.loan-success-container strong {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Submitting Overlay */
+.loan-submitting-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 8px;
+}
+
+.loan-submitting-message {
+  text-align: center;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loan-submitting-message p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #3498db;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .loan-form-container {
+    padding: 20px 15px;
+    margin: 20px 10px;
+  }
+
+  .loan-form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .loan-submit-button {
+    width: 100%;
+    padding: 12px 0;
+  }
 }
 
 @media print {
@@ -115,7 +197,7 @@ textarea {
     padding: 0;
     box-shadow: none;
   }
-  
+
   .loan-submit-button {
     display: none;
   }
