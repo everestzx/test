@@ -4,10 +4,10 @@ import "../stylez/SignUp.css";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
-    first_name: "",  // Changed from firstName
-    last_name: "",   // Changed from lastName
-    phone: "",       // Changed from phone_number
-    birth_date: "",  // Changed from birthdate
+    first_name: "", // Changed from firstName
+    last_name: "", // Changed from lastName
+    phone: "", // Changed from phone_number
+    birth_date: "", // Changed from birthdate
     email: "",
     password: "",
     confirmPassword: "",
@@ -61,13 +61,13 @@ const SignUpForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/register", {
+      const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: formData.first_name,  // Maps to first_name in backend
-          lastName: formData.last_name,   // Maps to last_name in backend
-          phone_number: formData.phone,   // Maps to phone in backend
+          firstName: formData.first_name, // Maps to first_name in backend
+          lastName: formData.last_name, // Maps to last_name in backend
+          phone_number: formData.phone, // Maps to phone in backend
           birth_date: formData.birth_date,
           email: formData.email,
           password: formData.password,
@@ -93,83 +93,45 @@ const SignUpForm = () => {
   return (
     <form className="signup-form" onSubmit={handleSubmit}>
       <div className="input-group">
-        <input 
-          type="text" 
-          name="first_name" 
-          placeholder="First Name" 
-          value={formData.first_name} 
-          onChange={handleChange} 
-        />
+        <input type="text" name="first_name" placeholder="First Name" value={formData.first_name} onChange={handleChange} />
         {errors.first_name && <p className="error">{errors.first_name}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="text" 
-          name="last_name" 
-          placeholder="Last Name" 
-          value={formData.last_name} 
-          onChange={handleChange} 
-        />
+        <input type="text" name="last_name" placeholder="Last Name" value={formData.last_name} onChange={handleChange} />
         {errors.last_name && <p className="error">{errors.last_name}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="tel" 
-          name="phone" 
-          placeholder="Phone Number" 
-          value={formData.phone} 
-          onChange={handleChange} 
-        />
+        <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} />
         {errors.phone && <p className="error">{errors.phone}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="date" 
-          name="birth_date" 
-          value={formData.birth_date} 
-          onChange={handleChange} 
-        />
+        <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} />
         {errors.birth_date && <p className="error">{errors.birth_date}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="Email Address" 
-          value={formData.email} 
-          onChange={handleChange} 
-        />
+        <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} />
         {errors.email && <p className="error">{errors.email}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="password" 
-          name="password" 
-          placeholder="Password" 
-          value={formData.password} 
-          onChange={handleChange} 
-        />
+        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
         {errors.password && <p className="error">{errors.password}</p>}
       </div>
       <div className="input-group">
-        <input 
-          type="password" 
-          name="confirmPassword" 
-          placeholder="Confirm Password" 
-          value={formData.confirmPassword} 
-          onChange={handleChange} 
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
         />
         {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
       </div>
       <div className="input-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
-            name="agree" 
-            checked={formData.agree} 
-            onChange={handleChange} 
-          />
-          I agree to the <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">terms and conditions</a>
+          <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />I agree to the{" "}
+          <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">
+            terms and conditions
+          </a>
         </label>
         {errors.agree && <p className="error">{errors.agree}</p>}
       </div>
