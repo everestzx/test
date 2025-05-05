@@ -1,0 +1,236 @@
+/* General Reset and Base Styles */
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  /* Removed height and overflow to allow page scrolling */
+}
+
+/* Page Layout */
+.auth-page {
+  min-height: 100vh;          /* Ensure full screen height minimum */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Container Layout */
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;          /* Ensure full height */
+  flex-wrap: wrap;
+}
+
+/* Left Side - Image */
+.image-side {
+  flex: 1;
+  background: #e8f1fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-side img {
+  max-width: 60%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Right Side - Form */
+.form-side {
+  flex: 1;
+  max-width: 500px;
+  padding: 2rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;           /* Allows form area to scroll if content is tall */
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.logo {
+  width: 100px;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.logo-wrapper img {
+  width: 120px;
+  transition: transform 0.2s ease;
+}
+
+.logo-wrapper img:hover {
+  transform: scale(1.05);
+}
+
+.motto {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 400;
+  margin: 0 0 1.2rem;
+}
+
+/* Typography */
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Form Styles */
+.signup-form,
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"] {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fafafa;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Password Toggle */
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* Form Layout */
+.row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.row .input-group {
+  flex: 1;
+  min-width: 45%;
+}
+
+.checkbox,
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.checkbox a,
+.link-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.checkbox a:hover,
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+.link-text {
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  color: #666;
+}
+
+/* Error Styles */
+.error,
+.error-input {
+  color: #d00;
+  font-size: 0.75rem;
+}
+
+.error-input {
+  border-color: #d00;
+  background-color: #ffe6e6;
+}
+
+.error {
+  margin: 2px 0 0 4px;
+}
+
+/* Buttons */
+button {
+  padding: 0.6rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  background: #005bb5;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .image-side {
+    display: none;
+  }
+
+  .form-side {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+
+  .row .input-group {
+    min-width: 100%;
+  }
+}

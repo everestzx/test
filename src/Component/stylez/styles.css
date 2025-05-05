@@ -1,0 +1,191 @@
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+.auth-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.image-side {
+  flex: 1;
+  background: #e8f1fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-side img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.form-side {
+  flex: 1;
+  max-width: 480px;
+  padding: 2rem 4rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.logo {
+  width: 100px;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.logo-wrapper img {
+  width: 120px;
+  transition: transform 0.2s ease;
+}
+
+.logo-wrapper img:hover {
+  transform: scale(1.05);
+}
+
+.motto {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 400;
+  margin: 0 0 1.2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fafafa;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+.row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+button {
+  padding: 0.6rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #005bb5;
+}
+
+.link-text {
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  color: #666;
+}
+
+.link-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #d00;
+  font-size: 0.75rem;
+  margin-top: -4px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.error-input {
+  border-color: #d00;
+  background-color: #ffe6e6;
+}
+
+.error {
+  color: #d00;
+  font-size: 0.75rem;
+  margin: 2px 0 0 4px;
+}
+
+.input-group {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+  

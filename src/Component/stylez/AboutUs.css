@@ -1,0 +1,144 @@
+.aboutus-container {
+    padding: 50px;
+    background: #f8f8f8;
+    background-size: cover;
+    text-align: center; /* Center ALL text inside */
+}
+
+.aboutus-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 40px;
+}
+
+.tab-item {
+    font-size: 24px;
+    color: #6b1d9c;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+    position: relative;
+}
+
+.tab-item:hover {
+    color: #4a1079;
+}
+
+.tab-item.active {
+    transform: scale(1.3);
+    color: #3b0a6d;
+    font-weight: bold;
+}
+
+.aboutus-content {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    align-items: center;    /* Center horizontally */
+    justify-content: center;
+    gap: 30px;
+}
+
+.aboutus-text {
+    width: 100%;
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #333;
+    min-height: 300px;
+}
+
+.aboutus-text p, .aboutus-text ul {
+    margin-bottom: 20px;
+}
+
+/* Fade-in animation for content */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.aboutus-image {
+    display: none; /* Hide the image section for now */
+}
+
+/* Mission and Vision Section */
+.mission-vision-section {
+    display: flex;
+    flex-direction: row; /* Side by side (horizontal) */
+    justify-content: center; /* Center horizontally */
+    align-items: stretch; /* Same height */
+    gap: 40px;
+    margin-top: 40px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.mission-vision-section.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mission-card, .vision-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.mission-card h3, .vision-card h3 {
+    color: #6b1d9c;
+    margin-bottom: 15px;
+}
+
+.mission-card p, .vision-card p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.core-values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+  }
+  
+  .core-value-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 25px 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .core-value-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .core-value-card h3 {
+    font-size: 22px;
+    color: #6b1d9c;
+    margin-bottom: 10px;
+  }
+  
+  .core-value-card p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+  }
+  

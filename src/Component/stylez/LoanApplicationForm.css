@@ -1,0 +1,122 @@
+/* LoanApplicationForm.css */
+.loan-form-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  font-family: 'Arial', sans-serif;
+  color: #000;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.loan-form-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: #000;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+}
+
+.loan-form-section {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.loan-section-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.loan-form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.loan-form-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.loan-form-group.small {
+  flex: 0.5;
+}
+
+.loan-form-group.wide {
+  flex: 2;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #000;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #000;
+  background-color: white;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 11px;
+  margin-top: 3px;
+  display: block;
+}
+
+.loan-form-footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.loan-submit-button {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 3px;
+}
+
+.loan-submit-button:hover {
+  background-color: #333;
+}
+
+@media print {
+  .loan-form-container {
+    padding: 0;
+    box-shadow: none;
+  }
+  
+  .loan-submit-button {
+    display: none;
+  }
+}

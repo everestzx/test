@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+.hero-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 40px;
+}
+
+.hero-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  max-width: 90%;
+  height: auto;
+}
+
+.hero-right {
+  flex: 1;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.logo-wrapper img,
+.hero-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 10px;
+  transition: transform 0.2s ease;
+}
+
+.logo-wrapper img:hover,
+.hero-logo:hover {
+  transform: scale(1.05);
+}
+
+.hero-title {
+  font-size: 70px;
+  font-weight: 400; /* Corrected from 40px */
+  margin-bottom: 6px;
+  letter-spacing: 20px;
+}
+
+.hero-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.hero-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #800080;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  background-color: #ddd;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #bbb;
+}
+
+.blue { color: #002d9c; }
+.orange { color: #f46b00; }
+.green { color: #00a859; }
+
+@media screen and (max-width: 960px) {
+  .hero-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .hero-left,
+  .hero-right {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 48px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+}

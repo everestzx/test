@@ -1,0 +1,81 @@
+:root {
+    --primary: #ffffff;
+    --secondary: #6b00b3;
+    --text-dark: #242424;
+    --text-light: #ffffff;
+  }
+  
+  /* General button styles */
+  .btn {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Variants */
+  .btn--primary {
+    background-color: var(--primary);
+    color: var(--text-dark);
+    border: 1px solid var(--primary);
+  }
+  
+  .btn--secondary {
+    background-color: var(--secondary);
+    color: var(--text-light);
+    border: 1px solid var(--secondary);
+  }
+  
+  .btn--outline {
+    background-color: #800080; /* Purple */
+    color: #f0f0f0;            /* Light text */
+    border: 1px solid #800080;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn--sign {
+    background-color: transparent;
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+  }
+  
+  /* Hover Effects */
+  .btn--primary:hover {
+    background-color: var(--secondary);
+    color: var(--text-light);
+    border: 1px solid var(--secondary);
+  }
+  
+  .btn--secondary:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+  }
+  
+  .btn--outline:hover {
+    background-color: #4b004b; 
+    color: #ffffff;            
+    border: 1px solid #4b004b;
+  }
+  
+  .btn--sign:hover {
+    background-color: var(--secondary);
+    color: var(--text-light);
+    border: 1px solid var(--secondary);
+  }
+  
+  /* Size variants */
+  .btn--medium {
+    padding: 8px 20px;
+    font-size: 16px;
+  }
+  
+  .btn--large {
+    padding: 12px 26px;
+    font-size: 18px;
+  }
+  
