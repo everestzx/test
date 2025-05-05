@@ -5,6 +5,10 @@ const MembershipFormSubmission = sequelize.define('MembershipFormSubmission', {
   user_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'users',
+      key: 'user_id',
+    },
   },
   last_name: DataTypes.STRING,
   first_name: DataTypes.STRING,
