@@ -1,4 +1,4 @@
-const { MembershipFormSubmission } = require('../models/MembershipFormSubmission');
+const MembershipFormSubmission = require('../models/MembershipFormSubmission');
 
 exports.submitMembershipForm = async (req, res) => {
   try {
@@ -10,4 +10,3 @@ exports.submitMembershipForm = async (req, res) => {
   }
 };
 //membershipController.js
-  
