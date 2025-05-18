@@ -52,31 +52,35 @@ function Navbar() {
             </li>
           )}
 
-          <li className="nav-item" onMouseEnter={() => setFormsDropdown(true)} onMouseLeave={() => setFormsDropdown(false)}>
-            <span className="nav-links">Online Forms</span>
-            {formsDropdown && (
-              <div className="dropdown-menu">
-                <Link to="/membership-form" className="dropdown-link" onClick={closeMobileMenu}>
-                  Membership Form
-                </Link>
-                <Link to="/loan-application-form" className="dropdown-link" onClick={closeMobileMenu}>
-                  Loan Application Form
-                </Link>
-              </div>
-            )}
-          </li>
+          {!isAdmin && (
+            <>
+              <li className="nav-item" onMouseEnter={() => setFormsDropdown(true)} onMouseLeave={() => setFormsDropdown(false)}>
+                <span className="nav-links">Online Forms</span>
+                {formsDropdown && (
+                  <div className="dropdown-menu">
+                    <Link to="/membership-form" className="dropdown-link" onClick={closeMobileMenu}>
+                      Membership Form
+                    </Link>
+                    <Link to="/loan-application-form" className="dropdown-link" onClick={closeMobileMenu}>
+                      Loan Application Form
+                    </Link>
+                  </div>
+                )}
+              </li>
 
-          <li className="nav-item">
-            <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
-              Services
-            </Link>
-          </li>
+              <li className="nav-item">
+                <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
+                  Services
+                </Link>
+              </li>
 
-          <li className="nav-item">
-            <Link to="/about-us" className="nav-links" onClick={closeMobileMenu}>
-              About Us
-            </Link>
-          </li>
+              <li className="nav-item">
+                <Link to="/about-us" className="nav-links" onClick={closeMobileMenu}>
+                  About Us
+                </Link>
+              </li>
+            </>
+          )}
 
           <li className="nav-item" onMouseEnter={() => setProfileDropdown(true)} onMouseLeave={() => setProfileDropdown(false)}>
             <div className="nav-photo profile-container">
