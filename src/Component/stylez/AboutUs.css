@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
 .aboutus-container {
     padding: 50px;
     background: #f8f8f8;
@@ -46,6 +48,7 @@
     line-height: 1.7;
     color: #333;
     min-height: 300px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .aboutus-text p, .aboutus-text ul {

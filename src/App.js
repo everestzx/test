@@ -15,7 +15,9 @@ import FAQ from "./Component/pages/FAQ";
 import Services from "./Component/pages/Services";
 import ProtectedRoute from "./Component/ProtectedRoute";
 import AdminRoute from "./Component/AdminRoute";
-
+import MembersFull from "./Component/pages/FullMemberTable";
+import LoanApplicationsFull from "./Component/pages/FullLoanTable";
+import MemberDash from "./Component/pages/MemberDash";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -34,7 +36,7 @@ function App() {
       localStorage.removeItem("expiresAt");
     }
   }, []);
-
+  
   return (
     <Router>
       {isLoggedIn && <Navbar />}
@@ -44,6 +46,9 @@ function App() {
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/loans/all" element={<LoanApplicationsFull />} />
+        <Route path="/members/all" element={<MembersFull />} />
 
         <Route
           path="/membership-form"
@@ -61,6 +66,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/member-dashboard"
+          element={
+            <ProtectedRoute>
+              <MemberDash />
+            </ProtectedRoute>
+          }
+        />  
         <Route
           path="/Dashboard"
           element={

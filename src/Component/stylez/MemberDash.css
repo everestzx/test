@@ -1,0 +1,81 @@
+.member-dashboard {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.welcome-box {
+  background-color: #a100d3;
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.welcome-box h2 {
+  margin: 0 0 10px 0;
+}
+
+.member-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.loan-summary-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.loan-summary-card h3 {
+  margin-top: 0;
+  color: #4b0082;
+}
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.summary-box {
+  background-color: #a100d3;
+  color: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.label {
+  font-size: 12px;
+  display: block;
+}
+
+.amount {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.loan-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+}
+
+.member-benefits {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.member-benefits h3 {
+  margin: 0;
+  color: #4b0082;
+}

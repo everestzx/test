@@ -226,3 +226,24 @@
       grid-template-columns: 1fr 1fr;
     }
   }
+/* Resize layout: make tables take more space */
+.dashboard-content {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Charts take 35% width */
+.content-left.small-charts {
+  flex: 0.35;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Tables take 65% width */
+.content-right.wide-tables {
+  flex: 0.65;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const sequelize = require("../db"); // Make sure this is the Sequelize instance
+const sequelize = require("../db"); 
 const { QueryTypes } = require("sequelize");
 
 router.post("/", async (req, res) => {
@@ -32,7 +32,6 @@ router.post("/", async (req, res) => {
 
     const role = user.role || "user"; // Default to 'user' if role is not set (for members/non-members)
 
-    // Success
     res.json({
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
