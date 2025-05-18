@@ -12,14 +12,14 @@ const membershipRoutes = require('./routes/membershipRoutes');
 const loanRoutes = require('./routes/loanRoutes');
 
 // Middleware
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/login', loginRoute);
-app.use('/api', membershipRoutes);
-app.use('/api', loanRoutes);
+app.use('/api/members', membershipRoutes);
+app.use('/api/loans', loanRoutes);
 
 sequelize
   .sync()
@@ -33,5 +33,3 @@ sequelize
   .catch((err) => {
     console.error('Error syncing database:', err);
   });
-
-  

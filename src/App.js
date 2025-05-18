@@ -36,7 +36,7 @@ function App() {
       localStorage.removeItem("expiresAt");
     }
   }, []);
-  
+
   return (
     <Router>
       {isLoggedIn && <Navbar />}
@@ -73,12 +73,20 @@ function App() {
               <MemberDash />
             </ProtectedRoute>
           }
-        />  
+        />
         <Route
           path="/Dashboard"
           element={
             <AdminRoute>
               <Dashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/members/all"
+          element={
+            <AdminRoute>
+              <MembersFull />
             </AdminRoute>
           }
         />

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { FiUsers, FiFileText, FiCheckCircle, FiDollarSign, FiClock } from 'react-icons/fi';
-import { BsGraphUp, BsPieChart } from 'react-icons/bs';
-import '../stylez/Dashboard.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { FiUsers, FiFileText, FiCheckCircle, FiDollarSign, FiClock } from "react-icons/fi";
+import { BsGraphUp, BsPieChart } from "react-icons/bs";
+import "../stylez/Dashboard.css";
 
 const Dashboard = () => {
   const [stats, setStats] = useState([]);
@@ -12,17 +12,26 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/dashboard/stats')
-      .then(res => setStats(res.data))
-      .catch(err => console.error('Stats fetch error:', err));
+    axios
+      .get("/api/dashboard/stats")
+      .then((res) => setStats(res.data))
+      .catch((err) => console.error("Stats fetch error:", err));
 
-    axios.get('/api/loans/recent')
-      .then(res => setRecentLoans(res.data))
-      .catch(err => console.error('Loans fetch error:', err));
+    axios
+      .get("/api/loans/recent")
+      .then((res) => setRecentLoans(res.data))
+      .catch((err) => console.error("Loans fetch error:", err));
 
-    axios.get('/api/members/recent')
-      .then(res => setRecentMembers(res.data))
-      .catch(err => console.error('Members fetch error:', err));
+    const fetchRecentMembers = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/members/recent");
+        setRecentMembers(response.data);
+      } catch (error) {
+        console.error("Members fetch error:", error);
+      }
+    };
+
+    fetchRecentMembers();
   }, []);
 
   const statIcons = {
@@ -78,7 +87,7 @@ const Dashboard = () => {
           <div className="dashboard-card">
             <div className="card-header">
               <h3>Recent Loan Applications</h3>
-              <span className="view-all" onClick={() => navigate('/FullLoanTable')}>
+              <span className="view-all" onClick={() => navigate("/FullLoanTable")}>
                 View All
               </span>
             </div>
@@ -101,9 +110,7 @@ const Dashboard = () => {
                       <td>{loan.type}</td>
                       <td>{loan.amount}</td>
                       <td>
-                        <span className={`status-badge ${loan.status}`}>
-                          {loan.status}
-                        </span>
+                        <span className={`status-badge ${loan.status}`}>{loan.status}</span>
                       </td>
                     </tr>
                   ))}
@@ -115,7 +122,7 @@ const Dashboard = () => {
           <div className="dashboard-card">
             <div className="card-header">
               <h3>Recent Members</h3>
-              <span className="view-all" onClick={() => navigate('/FullMemberTable')}>
+              <span className="view-all" onClick={() => navigate("/members/all")}>
                 View All
               </span>
             </div>
@@ -134,11 +141,9 @@ const Dashboard = () => {
                     <tr key={member.id}>
                       <td>{member.id}</td>
                       <td>{member.name}</td>
-                      <td>{member.membershipNo}</td>
+                      <td>{member.membership_no}</td>
                       <td>
-                        <span className={`status-badge ${member.status}`}>
-                          {member.status}
-                        </span>
+                        <span className={`status-badge ${member.status}`}>{member.status}</span>
                       </td>
                     </tr>
                   ))}

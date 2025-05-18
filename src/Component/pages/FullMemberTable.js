@@ -1,60 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const FullLoanTable = () => {
-  const [loans, setLoans] = useState([]);
+const FullMemberTable = () => {
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/loans')
-      .then(res => setLoans(res.data))
-      .catch(err => console.error('Error fetching loans:', err));
+    setLoading(true);
+    axios
+      .get('http://localhost:5000/api/members/all')
+      .then((res) => {
+        setMembers(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching members:', err);
+        setError('Error fetching members: ' + (err.response?.data?.message || err.message));
+        setLoading(false);
+      });
   }, []);
 
-  const columnHeaders = [
-    "id", "user_id", "application_date", "borrowerName", "clientID", "address",
-    "lengthofStayYears", "lengthofStayMonths", "conatactNo", "tin", "age", "gender",
-    "spouseName", "occupation", "birthdate", "civilStatus", "spuseOccupation", "loanProduct",
-    "loanAmount", "LoanAmountWords", "loanTeam", "payoutPreference", "paymentModel",
-    "loanPurpose", "status", "createdAt", "updatedAt"
-  ];
-
-  const formatValue = (key, value) => {
-    if (!value) return '';
-
-    const dateFields = ["application_date", "birthdate", "createdAt", "updatedAt"];
-    if (dateFields.includes(key)) {
-      const date = new Date(value);
-      return isNaN(date.getTime()) ? '' : date.toLocaleDateString();
-    }
-
-    return value;
-  };
+  // Define the columns we want to display
+  const columnHeaders = ['ID', 'Name', 'Membership No.', 'Status'];
 
   return (
     <div className="dashboard-container">
-      <h2>All Loan Applications</h2>
-      <div className="table-container" style={{ overflowX: 'auto' }}>
-        <table>
-          <thead>
-            <tr>
-              {columnHeaders.map((header, i) => (
-                <th key={i}>{header.replace(/_/g, ' ')}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loans.map((loan) => (
-              <tr key={loan.id}>
-                {columnHeaders.map((key, i) => (
-                  <td key={i}>{formatValue(key, loan[key])}</td>
+      <h2>All Members</h2>
+      {loading ? (
+        <p>Loading member data...</p>
+      ) : error ? (
+        <p className="error">{error}</p>
+      ) : (
+        <div className="table-container" style={{ overflowX: 'auto' }}>
+          <table>
+            <thead>
+              <tr>
+                {columnHeaders.map((header, i) => (
+                  <th key={i}>{header}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {members.length > 0 ? (
+                members.map((member) => (
+                  <tr key={member.id}>
+                    <td>{member.id}</td>
+                    <td>{member.name}</td>
+                    <td>{member.membership_no}</td>
+                    <td>{member.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: 'center' }}>
+                    No member data available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
 
-export default FullLoanTable;
+export default FullMemberTable;
