@@ -14,6 +14,11 @@ const LoanApplication = sequelize.define('LoanApplication', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
+  trackingNumber: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
   borrowerName: {
     type: DataTypes.STRING,
     allowNull: false,

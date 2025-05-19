@@ -22,7 +22,7 @@ app.use('/api/members', membershipRoutes);
 app.use('/api/loans', loanRoutes);
 
 sequelize
-  .sync()
+  .sync({ alter: true })
   .then(() => {
     const PORT = 5000;
     app.listen(PORT, () => {

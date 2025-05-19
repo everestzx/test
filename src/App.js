@@ -49,6 +49,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/loans/all" element={<LoanApplicationsFull />} />
         <Route path="/members/all" element={<MembersFull />} />
+        <Route path="/loans/all" element={<LoanApplicationsFull />} />
 
         <Route
           path="/membership-form"
@@ -87,6 +88,14 @@ function App() {
           element={
             <AdminRoute>
               <MembersFull />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/loans/all"
+          element={
+            <AdminRoute>
+              <LoanApplicationsFull />
             </AdminRoute>
           }
         />

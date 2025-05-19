@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../stylez/LoanApplicationForm.css';
+import axios from 'axios';
 
 const LoanApplicationForm = () => {
   const [formData, setFormData] = useState({
@@ -117,23 +118,26 @@ const LoanApplicationForm = () => {
           return;
         }
 
-        const response = await fetch('http://localhost:5000/api/loan-applications', {
-          method: 'POST',
+        const response = await axios.post('/api/loans/application', submissionData, {
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(submissionData),
         });
 
-        const data = await response.json();
-        if (response.ok) {
-          setApplicationId(data.data.id);
+        if (response.status >= 200 && response.status < 300) {
+          setApplicationId(response.data.data.id);
           setSubmitSuccess(true);
           resetForm();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          alert('Submission failed: ' + (data.error || data.message));
+          alert('Submission failed: ' + (response.data.error || response.data.message));
         }
       } catch (err) {
-        alert('Server error. Please try again later.');
+        if (err.response) {
+          alert('Submission failed: ' + (err.response.data.error || err.response.data.message || 'Unknown error'));
+        } else if (err.request) {
+          alert('No response from server. Please try again later.');
+        } else {
+          alert('Server error. Please try again later.');
+        }
         console.error('Error submitting loan application:', err);
       } finally {
         setIsSubmitting(false);
