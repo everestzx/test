@@ -39,7 +39,12 @@ const Login = ({ setIsLoggedIn }) => {
 
         setIsLoggedIn(true);
         alert("Login successful!");
-        navigate("/");
+
+        if (data.role === "admin") {
+          navigate("/Dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         setError(data.message || "Invalid credentials");
       }
