@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../stylez/LoanApplicationForm.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoanApplicationForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     user_id: localStorage.getItem('user_id') || '',
     application_date: new Date().toISOString().split('T')[0],
@@ -31,8 +33,6 @@ const LoanApplicationForm = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [applicationId, setApplicationId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -123,10 +123,7 @@ const LoanApplicationForm = () => {
         });
 
         if (response.status >= 200 && response.status < 300) {
-          setApplicationId(response.data.data.id);
-          setSubmitSuccess(true);
-          resetForm();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          navigate('/member-dashboard');
         } else {
           alert('Submission failed: ' + (response.data.error || response.data.message));
         }
@@ -144,31 +141,6 @@ const LoanApplicationForm = () => {
       }
     }
   };
-
-  const handleNewApplication = () => {
-    setSubmitSuccess(false);
-    setApplicationId(null);
-  };
-
-  if (submitSuccess) {
-    return (
-      <div className="loan-form-container">
-        <div className="loan-success-container">
-          <h2>Loan Application Submitted Successfully!</h2>
-          <p>Your application has been received and is being processed.</p>
-          <p>
-            Application ID: <strong>{applicationId}</strong>
-          </p>
-          <p>We will contact you soon regarding the status of your application.</p>
-          <div className="loan-form-footer">
-            <button onClick={handleNewApplication} className="loan-submit-button">
-              Submit Another Application
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="loan-form-container">
