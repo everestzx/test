@@ -42,6 +42,8 @@ const Login = ({ setIsLoggedIn }) => {
 
         if (data.role === "admin") {
           navigate("/Dashboard");
+        } else if (data.role === "member") {
+          navigate("/member-dashboard");
         } else {
           navigate("/");
         }
