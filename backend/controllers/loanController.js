@@ -95,6 +95,7 @@ exports.getPendingLoans = async (req, res) => {
 exports.approveLoan = async (req, res) => {
   try {
     const { id } = req.params;
+    const { loanTerm } = req.body; // Get loan term from request (e.g. "6 months", "12 months", "24 months")
     const loan = await LoanApplication.findByPk(id);
 
     if (!loan) {
@@ -104,7 +105,17 @@ exports.approveLoan = async (req, res) => {
       });
     }
 
+    // Update loan with status and interest rate
     loan.status = 'Approved';
+
+    // Update loan term if provided, otherwise keep existing value
+    if (loanTerm) {
+      loan.loanTerm = loanTerm;
+    } else if (!loan.loanTerm) {
+      // If loan term is not provided and not already set, default to "12 months"
+      loan.loanTerm = '12 months';
+    }
+
     await loan.save();
 
     res.status(200).json({
@@ -199,6 +210,45 @@ exports.getLoanById = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to retrieve loan application',
+      error: error.message,
+    });
+  }
+};
+
+// Get all loan applications by user ID
+exports.getLoansByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required',
+      });
+    }
+
+    const userLoans = await LoanApplication.findAll({
+      where: { user_id: userId },
+      order: [['createdAt', 'DESC']],
+      attributes: [
+        'id',
+        'borrowerName',
+        'loanProduct',
+        'loanAmount',
+        'status',
+        'trackingNumber',
+        'createdAt',
+        'application_date',
+        'loanTerm',
+      ],
+    });
+
+    res.status(200).json(userLoans);
+  } catch (error) {
+    console.error('Error fetching user loans:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve user loan applications',
       error: error.message,
     });
   }

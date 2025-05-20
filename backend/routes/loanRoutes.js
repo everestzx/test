@@ -14,6 +14,9 @@ router.get('/recent', loanController.getRecentLoans);
 // Get pending loan applications
 router.get('/pending', loanController.getPendingLoans);
 
+// Get user's loan applications
+router.get('/user/:userId', loanController.getLoansByUserId);
+
 // Get a specific loan application by ID
 router.get('/:id', loanController.getLoanById);
 
