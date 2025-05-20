@@ -259,7 +259,6 @@ const LoanApplicationForm = () => {
               <option value="Regular Loan">Regular Loan</option>
               <option value="Salary Loan">Salary Loan</option>
               <option value="Emergency Loan">Emergency Loan</option>
-              <option value="Others">Others</option>
             </select>
             {errors.loanProduct && <div className="error-message">{errors.loanProduct}</div>}
           </div>
@@ -295,7 +294,8 @@ const LoanApplicationForm = () => {
                 <option value="">Select</option>
                 <option value="6 months">6 months</option>
                 <option value="12 months">12 months</option>
-                <option value="Others">Others</option>
+                <option value="18 months">18 months</option>
+                <option value="24 months">24 months</option>
               </select>
               {errors.loanTerm && <div className="error-message">{errors.loanTerm}</div>}
             </div>
@@ -319,7 +319,6 @@ const LoanApplicationForm = () => {
                 <option value="">Select</option>
                 <option value="Over the Counter">Over the Counter</option>
                 <option value="Fund Transfer">Fund Transfer</option>
-                <option value="Others">Others</option>
               </select>
               {errors.paymentMode && <div className="error-message">{errors.paymentMode}</div>}
             </div>

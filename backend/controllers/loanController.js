@@ -95,7 +95,7 @@ exports.getPendingLoans = async (req, res) => {
 exports.approveLoan = async (req, res) => {
   try {
     const { id } = req.params;
-    const { loanTerm } = req.body; // Get loan term from request (e.g. "6 months", "12 months", "24 months")
+    const { loanTerm } = req.body || {};
     const loan = await LoanApplication.findByPk(id);
 
     if (!loan) {

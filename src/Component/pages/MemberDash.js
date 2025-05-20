@@ -12,6 +12,13 @@ const MemberDash = () => {
   const [pendingLoans, setPendingLoans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedLoanId, setSelectedLoanId] = useState(null);
+  const [paymentAmount, setPaymentAmount] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('Over the Counter');
+  const [paymentNote, setPaymentNote] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   // Parse loan term string (e.g. "6 months", "12 months") to get the numeric value
   const parseLoanTerm = (loanTermString) => {
@@ -51,10 +58,10 @@ const MemberDash = () => {
           const userLoans = loansResponse.data;
 
           // Process all approved loans
-          const approved = userLoans.filter((loan) => loan.status === 'Approved');
+          const approved = userLoans.filter((loan) => loan.status === 'Approved' || loan.status === 'Disbursed');
 
-          // Process all loans with calculated payment details
-          const processedApprovedLoans = approved.map((loan) => {
+          // Process all loans with calculated payment details and fetch remaining balance
+          const processedApprovedLoansPromises = approved.map(async (loan) => {
             const loanTermMonths = parseLoanTerm(loan.loanTerm);
             const interestRate = getLoanInterestRate(loan.loanProduct);
             const principal = parseFloat(loan.loanAmount);
@@ -75,15 +82,45 @@ const MemberDash = () => {
               }
             }
 
+            // Fetch payments for this loan to calculate remaining balance
+            let remainingBalance = principal;
+            let totalPaid = 0;
+
+            try {
+              const paymentResponse = await axios.get(`/api/payments/loan/${loan.id}/balance`);
+              if (paymentResponse.data && paymentResponse.data.success) {
+                totalPaid = parseFloat(paymentResponse.data.totalPaid) || 0;
+
+                // Calculate total amount with interest
+                const monthlyInterestRate = interestRate / 100 / 12;
+                const totalPayable = principal * (1 + monthlyInterestRate * loanTermMonths);
+
+                // Remaining balance with interest
+                remainingBalance = totalPayable - totalPaid;
+                if (remainingBalance < 0) remainingBalance = 0;
+              }
+            } catch (err) {
+              console.error('Error fetching loan balance:', err);
+              // If there's an error, calculate with interest as fallback
+              const monthlyInterestRate = interestRate / 100 / 12;
+              remainingBalance = principal * (1 + monthlyInterestRate * loanTermMonths);
+            }
+
             return {
+              id: loan.id,
               trackingNumber: loan.trackingNumber,
               loanProduct: loan.loanProduct,
               loanAmount: principal,
               monthlyPayment: monthlyPayment,
               interestRate: interestRate,
               paymentDuration: loanTermMonths,
+              remainingBalance: remainingBalance,
+              totalPaid: totalPaid,
+              paidPercentage: (totalPaid / principal) * 100,
             };
           });
+
+          const processedApprovedLoans = await Promise.all(processedApprovedLoansPromises);
 
           setUserData({
             username: `${userData.first_name || ''} ${userData.last_name || ''}`,
@@ -95,6 +132,7 @@ const MemberDash = () => {
 
           // Format the loans data for display in the table
           const formattedLoans = userLoans.map((loan) => ({
+            id: loan.id,
             trackingNumber: loan.trackingNumber,
             loanProduct: loan.loanProduct,
             loanAmount: parseFloat(loan.loanAmount),
@@ -119,7 +157,7 @@ const MemberDash = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [paymentSuccess]);
 
   // Calculate the type-specific interest rate
   const getLoanInterestRate = (type) => {
@@ -134,6 +172,66 @@ const MemberDash = () => {
         return 6;
       default:
         return 0;
+    }
+  };
+
+  // Handle opening payment modal
+  const handleOpenPaymentModal = (loanId) => {
+    setSelectedLoanId(loanId);
+    setShowPaymentModal(true);
+    setPaymentAmount('');
+    setPaymentMethod('Over the Counter');
+    setPaymentNote('');
+    setPaymentSuccess(false);
+  };
+
+  // Handle closing payment modal
+  const handleClosePaymentModal = () => {
+    setShowPaymentModal(false);
+    setSelectedLoanId(null);
+  };
+
+  // Handle payment submission
+  const handleSubmitPayment = async (e) => {
+    e.preventDefault();
+    setIsProcessing(true);
+
+    try {
+      const userId = localStorage.getItem('user_id');
+
+      // Find the selected loan to check remaining balance
+      const selectedLoan = approvedLoans.find((loan) => loan.id === selectedLoanId);
+      const paymentAmt = parseFloat(paymentAmount);
+
+      // Validate payment amount doesn't exceed remaining balance
+      if (selectedLoan && paymentAmt > selectedLoan.remainingBalance) {
+        alert(`Payment amount exceeds the remaining balance. Maximum payment allowed is ₱${selectedLoan.remainingBalance.toFixed(2)}`);
+        setIsProcessing(false);
+        return;
+      }
+
+      const paymentData = {
+        loan_id: selectedLoanId,
+        user_id: parseInt(userId),
+        payment_amount: paymentAmt,
+        payment_method: paymentMethod,
+        notes: paymentNote,
+      };
+
+      const response = await axios.post('/api/payments', paymentData);
+
+      if (response.data && response.data.success) {
+        setPaymentSuccess(true);
+        setTimeout(() => {
+          setShowPaymentModal(false);
+          setSelectedLoanId(null);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      setError('Failed to process payment. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -164,11 +262,40 @@ const MemberDash = () => {
             <div className="summary-section">
               <div className="summary-box">
                 <span className="label">Current Balance</span>
-                <span className="amount">₱ {typeof loan.loanAmount === 'number' ? loan.loanAmount.toLocaleString() : '0'}</span>
+                <span className="amount">
+                  ₱{' '}
+                  {typeof loan.remainingBalance === 'number'
+                    ? loan.remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    : '0.00'}
+                </span>
+                <div className="progress-bar">
+                  <div className="progress-bar-fill" style={{ width: `${Math.min(loan.paidPercentage, 100)}%` }} />
+                </div>
+                <div className="progress-info">
+                  <span>{loan.paidPercentage.toFixed(0)}% paid</span>
+                  <span>
+                    ₱{' '}
+                    {typeof loan.totalPaid === 'number'
+                      ? loan.totalPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                      : '0.00'}{' '}
+                    of ₱{' '}
+                    {typeof loan.loanAmount === 'number'
+                      ? loan.loanAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                      : '0.00'}
+                  </span>
+                </div>
               </div>
               <div className="summary-box">
                 <span className="label">Next Payment</span>
-                <span className="amount">₱ {typeof loan.monthlyPayment === 'number' ? loan.monthlyPayment.toLocaleString() : '0'}</span>
+                <span className="amount">
+                  ₱{' '}
+                  {typeof loan.monthlyPayment === 'number'
+                    ? loan.monthlyPayment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    : '0.00'}
+                </span>
+                <button onClick={() => handleOpenPaymentModal(loan.id)} className="make-payment-btn">
+                  Make Payment
+                </button>
               </div>
             </div>
             <div className="loan-details">
@@ -209,8 +336,8 @@ const MemberDash = () => {
                     <td>
                       <span className={`status-badge ${loan.status.toLowerCase()}`}>{loan.status}</span>
                     </td>
-                    <td>{loan.status === 'Approved' ? `${getLoanInterestRate(loan.loanProduct)}%` : '-'}</td>
-                    <td>{loan.status === 'Approved' ? loan.loanTerm || '-' : '-'}</td>
+                    <td>{loan.status === 'Approved' || loan.status === 'Disbursed' ? `${getLoanInterestRate(loan.loanProduct)}%` : '-'}</td>
+                    <td>{loan.status === 'Approved' || loan.status === 'Disbursed' ? loan.loanTerm || '-' : '-'}</td>
                   </tr>
                 ))
               ) : (
@@ -224,6 +351,67 @@ const MemberDash = () => {
           </table>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal">
+            <div className="payment-modal-header">
+              <h3>Make a Payment</h3>
+              <button className="close-modal" onClick={handleClosePaymentModal}>
+                ×
+              </button>
+            </div>
+
+            {paymentSuccess ? (
+              <div className="payment-success">
+                <div className="success-icon">✓</div>
+                <h4>Payment Successful!</h4>
+                <p>Your payment has been received.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitPayment} className="payment-form">
+                <div className="form-group">
+                  <label htmlFor="payment-amount">Payment Amount (₱)</label>
+                  <input
+                    id="payment-amount"
+                    type="number"
+                    value={paymentAmount}
+                    onChange={(e) => setPaymentAmount(e.target.value)}
+                    placeholder="Enter amount"
+                    min="0.01"
+                    step="0.01"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="payment-method">Payment Method</label>
+                  <select id="payment-method" value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
+                    <option value="Over the Counter">Over the Counter</option>
+                    <option value="Fund Transfer">Fund Transfer</option>
+                    <option value="Online Payment">Online Payment</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="payment-note">Note (Optional)</label>
+                  <textarea
+                    id="payment-note"
+                    value={paymentNote}
+                    onChange={(e) => setPaymentNote(e.target.value)}
+                    placeholder="Add note about this payment"
+                  />
+                </div>
+
+                <button type="submit" className="submit-payment-btn" disabled={isProcessing || !paymentAmount}>
+                  {isProcessing ? 'Processing...' : 'Submit Payment'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
