@@ -279,9 +279,16 @@ const MemberDash = () => {
                       ? loan.totalPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                       : '0.00'}{' '}
                     of ₱{' '}
-                    {typeof loan.loanAmount === 'number'
-                      ? loan.loanAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                      : '0.00'}
+                    {(() => {
+                      const principal = loan.loanAmount;
+                      const monthlyInterestRate = loan.interestRate / 100 / 12;
+                      const loanTermMonths = loan.paymentDuration;
+                      const totalPayable = principal * (1 + monthlyInterestRate * loanTermMonths);
+
+                      return typeof totalPayable === 'number'
+                        ? totalPayable.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        : '0.00';
+                    })()}
                   </span>
                 </div>
               </div>
