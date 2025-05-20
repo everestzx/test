@@ -14,6 +14,7 @@ function Navbar() {
   const isCustomPhoto = userPhoto !== './images/default-user.png';
   const userRole = localStorage.getItem('userRole') || 'user'; // Default to regular user if no role is set
   const isAdmin = userRole === 'admin';
+  const isMember = userRole === 'member';
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -54,6 +55,13 @@ function Navbar() {
 
           {!isAdmin && (
             <>
+              {isMember && (
+                <li className="nav-item">
+                  <Link to="/member-dashboard" className="nav-links" onClick={closeMobileMenu}>
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               <li className="nav-item" onMouseEnter={() => setFormsDropdown(true)} onMouseLeave={() => setFormsDropdown(false)}>
                 <span className="nav-links">Online Forms</span>
                 {formsDropdown && (
