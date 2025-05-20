@@ -66,9 +66,11 @@ function Navbar() {
                 <span className="nav-links">Online Forms</span>
                 {formsDropdown && (
                   <div className="dropdown-menu">
-                    <Link to="/membership-form" className="dropdown-link" onClick={closeMobileMenu}>
-                      Membership Form
-                    </Link>
+                    {!isMember && (
+                      <Link to="/membership-form" className="dropdown-link" onClick={closeMobileMenu}>
+                        Membership Form
+                      </Link>
+                    )}
                     <Link to="/loan-application-form" className="dropdown-link" onClick={closeMobileMenu}>
                       Loan Application Form
                     </Link>
